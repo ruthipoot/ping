@@ -8,13 +8,13 @@ sc.bgcolor("black")
 sc.setup(width=1000, height=600)
 
 # Left paddle
-left_pad = turtle.Turtle()
-left_pad.speed(0)
-left_pad.shape("square")
-left_pad.color("white")
-left_pad.shapesize(stretch_wid=5, stretch_len=1)
-left_pad.penup()
-left_pad.goto(-400, 0)
+bot_pad = turtle.Turtle()
+bot_pad.speed(0)
+bot_pad.shape("square")
+bot_pad.color("white")
+bot_pad.shapesize(stretch_wid=5, stretch_len=1)
+bot_pad.penup()
+bot_pad.goto(-400, 0)
 
 # Right paddle (AI)
 right_pad = turtle.Turtle()
@@ -64,15 +64,10 @@ def paddlebdown():
         right_pad.sety(y)
 
 def ai_paddle_movement():
-    if hit_ball.ycor() > right_pad.ycor() + 10:
-        left_pad.sety(right_pad.ycor() + 10)  # Move up
-    elif hit_ball.ycor() < right_pad.ycor() - 20:
-        left_pad.sety(right_pad.ycor() - 10)  # Move down
-
-#Q-Learning Agent
-q_table ={}
-alpha = 1
-beta = 2
+    if hit_ball.ycor() > bot_pad.ycor() + 10:
+        bot_pad.sety(bot_pad.ycor() + 10)  # Move up
+    elif hit_ball.ycor() < bot_pad.ycor() - 20:
+        bot_pad.sety(bot_pad.ycor() - 10)  # Move down
 
 
 # Keyboard bindings
@@ -118,12 +113,12 @@ while True:
 
     # Paddle ball collision
     if (hit_ball.xcor() > 360 and hit_ball.xcor() < 370) and \
-            (hit_ball.ycor() < right_pad.ycor() + 50 and hit_ball.ycor() > right_pad.ycor() - 50):
+            (hit_ball.ycor() < right_pad.ycor() + 50 and hit_ball.ycor()):
         hit_ball.setx(360)
         hit_ball.dx *= -1
 
     if (hit_ball.xcor() < -360 and hit_ball.xcor() > -370) and \
-            (hit_ball.ycor() < left_pad.ycor() + 50 and hit_ball.ycor() > left_pad.ycor() - 50):
+            (hit_ball.ycor() < bot_pad.ycor() + 50 and hit_ball.ycor()):
         hit_ball.setx(-360)
         hit_ball.dx *= -1
     
