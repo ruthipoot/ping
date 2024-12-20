@@ -65,11 +65,21 @@ def paddlebdown():
         y -= 20
         right_pad.sety(y)
 
-def ai_paddle_movement():
-    if hit_ball.ycor() > bot_pad.ycor() + 10:
-        bot_pad.sety(bot_pad.ycor() + 10)  # Move up
-    elif hit_ball.ycor() < bot_pad.ycor() - 20:
-        bot_pad.sety(bot_pad.ycor() - 10)  # Move down
+def ai_paddle_movement(difficulty="normal"):
+    ball_y = hit_ball.ycor()
+    paddle_y = bot_pad.ycor()
+    
+    speed = {"easy": 10, "normal": 20, "hard": 30}.get(difficulty, 20)  # Use different speeds based on difficulty
+    
+    if ball_y > paddle_y + 10:
+        bot_pad.sety(paddle_y + speed)
+    elif ball_y < paddle_y - 10:
+        bot_pad.sety(paddle_y - speed)
+    
+    # Add predictive movement based on ball speed for higher difficulty
+    if difficulty == "hard" and abs(hit_ball.dy) > 7:
+        bot_pad.sety(paddle_y + (ball_y - paddle_y) * 0.5)
+
 
 
 # Keyboard bindings
@@ -126,15 +136,18 @@ def get_game_State():
     return (bot_pad.ycor(), right_pad.ycor(), hit_ball.xcor(), hit_ball.ycor(), hit_ball.dx, hit_ball.dy)
 
 def game_step():
+    global left_player, right_player 
     reward = 0
     # Checking borders
     if hit_ball.ycor() > 280:
         hit_ball.sety(280)
         hit_ball.dy *= -1
+        hit_ball.dx += random.uniform(-1, 1)
 
     if hit_ball.ycor() < -280:
         hit_ball.sety(-280)
         hit_ball.dy *= -1
+        hit_ball.dx += random.uniform(-1, 1)
 
     if hit_ball.xcor() > 500:
         hit_ball.goto(0, 0)
@@ -150,17 +163,19 @@ def game_step():
 
     # Paddle ball collision
     if (hit_ball.xcor() > 360 and hit_ball.xcor() < 370) and \
-            (hit_ball.ycor() < right_pad.ycor() + 50 and hit_ball.ycor()):
+            (hit_ball.ycor() < right_pad.ycor() + 50 and hit_ball.ycor() > right_pad.ycor() - 50):
         hit_ball.setx(360)
         hit_ball.dx *= -1
+        hit_ball.dy += random.uniform(-1, 1)
         #right collision
         reward = 10
 
 
     if (hit_ball.xcor() < -360 and hit_ball.xcor() > -370) and \
-            (hit_ball.ycor() < bot_pad.ycor() + 50 and hit_ball.ycor()):
+            (hit_ball.ycor() < bot_pad.ycor() + 50 and hit_ball.ycor() > right_pad.ycor() - 50):
         hit_ball.setx(-360)
         hit_ball.dx *= -1
+        hit_ball.dy += random.uniform(-1, 1)
         #bot collision
     return reward
 
