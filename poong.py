@@ -155,7 +155,6 @@ def game_step():
             (hit_ball.ycor() < right_pad.ycor() + 50 and hit_ball.ycor() > right_pad.ycor() - 50):
         hit_ball.setx(360)
         hit_ball.dx *= -1
-        hit_ball.dy += random.uniform(-1, 1)
         #right collision
         reward = 10
 
@@ -164,7 +163,6 @@ def game_step():
             (hit_ball.ycor() < bot_pad.ycor() + 50 and hit_ball.ycor() > right_pad.ycor() - 50):
         hit_ball.setx(-360)
         hit_ball.dx *= -1
-        hit_ball.dy += random.uniform(-1, 1)
         #bot collision
     return reward
 
