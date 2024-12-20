@@ -65,22 +65,11 @@ def paddlebdown():
         y -= 20
         right_pad.sety(y)
 
-def ai_paddle_movement(difficulty="normal"):
-    ball_y = hit_ball.ycor()
-    paddle_y = bot_pad.ycor()
-    
-    speed = {"easy": 10, "normal": 20, "hard": 30}.get(difficulty, 20)  # Use different speeds based on difficulty
-    
-    if ball_y > paddle_y + 10:
-        bot_pad.sety(paddle_y + speed)
-    elif ball_y < paddle_y - 10:
-        bot_pad.sety(paddle_y - speed)
-    
-    # Add predictive movement based on ball speed for higher difficulty
-    if difficulty == "hard" and abs(hit_ball.dy) > 7:
-        bot_pad.sety(paddle_y + (ball_y - paddle_y) * 0.5)
-
-
+def ai_paddle_movement():
+    if hit_ball.ycor() > bot_pad.ycor() + 10:
+        bot_pad.sety(bot_pad.ycor() + 10)  # Move up
+    elif hit_ball.ycor() < bot_pad.ycor() - 20:
+        bot_pad.sety(bot_pad.ycor() - 10)  # Move down
 
 # Keyboard bindings
 sc.listen()
@@ -136,7 +125,7 @@ def get_game_State():
     return (bot_pad.ycor(), right_pad.ycor(), hit_ball.xcor(), hit_ball.ycor(), hit_ball.dx, hit_ball.dy)
 
 def game_step():
-    global left_player, right_player 
+    global left_player, right_player
     reward = 0
     # Checking borders
     if hit_ball.ycor() > 280:
