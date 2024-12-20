@@ -172,13 +172,11 @@ def train_ai():
         pong_agent_action = pong_agent.choose_action(game_state, EPSILON)
 
         if pong_agent_action == 0:
-            paddlebup()
+            ai_paddle_movement()
         if pong_agent_action == 1:
-            paddlebdown()
+            ai_paddle_movement()
 
         pong_agent_reward = game_step()
-
-        ai_paddle_movement()
 
         next_state = get_game_State()
 
@@ -196,9 +194,9 @@ while True:
     print(right_pad.ycor())
 
     if pong_agent_action == 0:
-        paddlebup()
+        ai_paddle_movement()
     if pong_agent_action == 1:
-        paddlebdown()
+        ai_paddle_movement()
 
     # Add delay to make game smoother
 

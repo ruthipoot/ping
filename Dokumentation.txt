@@ -1,0 +1,3 @@
+Pong ist ein Zweispieler-Spiel, bei dem jeder Spieler einen Schläger nutzt, um einen Ball zurückzuschlagen und Punkte zu erzielen. Das Spiel simuliert den Tischtennissport. In diesem Projekt übernimmt ein Bot die Rolle des Gegners, der mithilfe von künstlicher Intelligenz, Q-Learning und Reinforcement Learning entwickelt wurde. Ich habe dieses Spiel ausgewählt, weil es recht bekannt ist und die Bewegungen und die Umsetzung leicht zu verstehen sind.
+
+Damit der Bot nicht einfach ist gegen ihn zu spielen, wird die 
